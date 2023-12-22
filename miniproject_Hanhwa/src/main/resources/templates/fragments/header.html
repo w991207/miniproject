@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<style type="text/css">
+   #container{
+      width: 1000px;
+      margin: 0 auto;
+
+   }
+
+</style>
+</head>
+<body>
+<header th:fragment="header" class="header">
+   <nav class="navbar bg-dark border-bottom border-body " data-bs-theme="dark">
+   <div class="container" >
+   <div class="navbar-header">
+     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+       <span class="sr-only">Toggle navigation</span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+     </button>
+   </div>
+   <div id="navbar navbar-light" class="collapse navbar-collapse">
+     <ul class="nav navbar-nav">
+       <li><a href="/user/logout" style="color: black; font-weight: bold" >로그아웃</a></li>
+       <li><a href="/news/boardList?pnum=1" style="color: black; font-weight: bold">소식게시판</a></li>
+       <li><a href="/free/freeboardList?pnum=1" style="color: black; font-weight: bold">자유게시판</a></li>
+       <li><a href="/schedule/calendar" style="color: black; font-weight: bold">일정</a></li>
+       <li><a href="/user/userInfo" style="color: black; font-weight: bold">내정보</a></li>
+
+     </ul>
+     <ul style="list-style: none; float: right; margin-right: 0px;">
+          <li style="float: left; margin-right: 5px;"><a  href="https://www.youtube.com/channel/UCdq4Ji3772xudYRUatdzRrg">
+          <img class="youtube" th:src="@{/css/칰튜브.png}" style="width:30px; height: 30px; margin-top: 10px;"/></a></li>
+          <li style="float: left;"><a  href="https://www.instagram.com/hanwhaeagles_soori/">
+          <img class="youtube" th:src="@{/css/수리스타.png}" style="width:30px; height: 30px; margin-top: 10px;"/></a></li>
+     </ul>
+   </div>
+   </div>
+</nav>
+  </header>
+  <div style="height: 50px;"></div>
+</body>
+</html>

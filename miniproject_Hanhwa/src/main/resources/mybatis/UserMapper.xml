@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mapper.UserMapper">
+   
+   <insert id="addUser" parameterType="userDto">
+      INSERT INTO HHUSERINFO
+      VALUES(NULL,#{id},#{name},#{password},#{address},'Y',#{role},SYSDATE())
+   </insert>
+   
+   <select id="idChk" parameterType="String" resultType="String">
+      SELECT ID FROM HHUSERINFO WHERE ID = #{id}
+   </select>
+   
+   <select id="loginUser" parameterType="String" resultType="userDto">
+      SELECT  ID, NAME, PASSWORD, ADDRESS, ROLE
+      FROM HHUSERINFO
+      WHERE ID = #{id} AND ENABLED = 'Y'
+   </select>
+   
+   <select id="userInfo" parameterType="String" resultType="userDto">
+      SELECT ID, NAME, ADDRESS, ROLE
+      FROM HHUSERINFO
+      WHERE ID = #{id}
+   </select>
+   
+   <update id="updateUser" parameterType="userDto">
+      UPDATE HHUSERINFO
+      SET name = #{name}, role = #{role}, address = #{address}
+      WHERE ID = #{id}
+   </update>
+   
+   <update id="delUser" parameterType="String">
+      UPDATE HHUSERINFO
+      SET enabled = 'N'
+      WHERE ID = #{id}
+   </update>
+   <select id="getAllUserList" resultType="userDto">
+      select id, name, address, role, enabled, regdate
+      from hhuserinfo
+      where role='egg' and enabled='Y'
+   </select>
+	
+	<update id="mulDel" parameterType="Map">
+      UPDATE HHUSERINFO SET enabled = 'N' WHERE id IN
+      <foreach collection="id" item="id" open="(" close=")"
+               separator=",">
+         #{id}
+      </foreach>
+   </update>   
+   
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

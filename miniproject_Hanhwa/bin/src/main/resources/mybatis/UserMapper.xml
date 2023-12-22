@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mapper.UserMapper">
+	
+	<insert id="addUser" parameterType="userDto">
+		INSERT INTO HHUSERINFO
+		VALUES(NULL,#{id},#{name},#{password},#{address},'Y',#{role},SYSDATE())
+	</insert>
+	
+	<select id="idChk" parameterType="String" resultType="String">
+		SELECT ID FROM HHUSERINFO WHERE ID = #{id}
+	</select>
+	
+	<select id="loginUser" parameterType="String" resultType="userDto">
+		SELECT  ID, NAME, PASSWORD, ADDRESS, ROLE
+		FROM HHUSERINFO
+		WHERE ID = #{id}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

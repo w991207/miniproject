@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+   function registForm(){
+      location.href="/user/addUser";
+   }
+</script>
+<style type="text/css">
+   .soori{width:350px; height:350px; margin-top: 20px; margin-bottom: 20px;}
+    h1{margin-top: -70px;}
+    .find-btn{
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .btn{
+       display:inline-block;
+       width: 150px; height: 60px;
+    }
+ 
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+   <form action="/user/login" method="post" onsubmit="return userIdCookie()" id="home">
+      <div style="text-align: center;">
+         <br/>
+         <h1>수리의 날갯짓</h1>
+         <img class="soori" th:src="@{/css/soori.gif}" />
+         <br/>
+         <input class="loginVal" type="text" name="id" placeholder="ID" required="required" />
+         <br/>
+         <input class="loginVal" type="password" name="password" placeholder="PASSWORD" required="required" />
+      </div>
+      <div class="find-btn">
+         <button type="submit" class="btn">Sign in</button>
+         <button type="button" class="btn" onclick="registForm()">Sign Up</button>
+      </div>
+   </form>
+</div>
+</body>
+</html>

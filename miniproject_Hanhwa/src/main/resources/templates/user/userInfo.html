@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function delUser(){
+   location.href = "/user/delUser";
+}
+</script>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+<h1>유저 정보</h1>
+<div id="container">
+   <div class="main">
+      <div class="lead">
+      <span th:text="${session.mdto.id}"></span>[<span th:text="${session.mdto.role}"></span>]님께서 로그인하셨습니다.
+      </div>
+      <div class="contents">
+         <div id="myinfo">
+            <form action="/user/userUpdate" method="post" >
+               <table class="table">
+                  <tr>
+                        <th>아이디</th>
+                        <td>
+                           <input type="text" name="id" th:value="${dto.id}" class="form-control" readonly="readonly" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이름</th>
+                        <td>
+                           <input type="text" name="name" th:value="${dto.name}" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>등급</th>
+                        <td>
+                           <input type="text" name="role" th:value="${dto.role}" class="form-control" readonly="readonly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td>
+                           <input type="text" name="address" th:value="${dto.address}" class="form-control" />
+                        </td>
+                    </tr>
+                  <tr>
+                     <td colspan="2">
+                        <button type="submit">수정</button>
+<!--                         <button type="button" onclick="delUser('${dto.id}')">탈퇴</button> -->
+                        <button type="button" onclick="delUser()">탈퇴</button>
+                     </td>
+                  </tr>
+               </table>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+</body>
+</html>

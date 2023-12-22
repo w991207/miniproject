@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function updateEX(){
+   if(confirm("수정할거임?")){
+      return true;
+   }
+   return false;
+}
+function addReply()
+{
+	var seq=parseInt($("input[name=board_seq]").val());
+    var id=$("input[id=replyId]").val();
+    var content=$("input[name=text]").val();
+    $.ajax({
+       url:"/news/addReplyBoard",
+       method:"get",
+       dataType:"text",
+       async:false,
+       data:{"board_seq":seq, "id":id, "content":content},
+       success:function(data){
+       },
+       error:function(e){
+          alert("통신오류"+e);
+       }
+    });
+   
+   const addValue= document.getElementById('exampleFormControlTextarea1').value;
+   const li = document.createElement("li");
+   li.setAttribute('id', exampleFormControlTextarea1);
+   const textNode= document.createTextNode(addValue);
+   li.appendChild(textNode);
+   document.getElementById('reply').appendChild(li);
+}
+
+function showReply(){
+   
+   var seq=parseInt($("input[name=board_seq]").val());
+   $.ajax({
+      url:"/news/showReplyBoard",
+      method:"get",
+      dataType:"json",
+      async:false,
+      data:{"seq":seq},
+      success:function(data){
+    	  for (var i = 0; i < data.list.length; i++) {
+    		const addValue= data.list[i].id + " | " + data.list[i].content;
+			const li = document.createElement("li");
+			li.setAttribute('id', exampleFormControlTextarea1);
+		    const textNode= document.createTextNode(addValue);
+	 	    li.appendChild(textNode);
+		    document.getElementById('reply').appendChild(li);
+		}
+      },
+      error:function(e){
+         alert("댓글보기 오류"+e);
+      }
+   });
+   
+   
+}
+</script>
+<style type="text/css">
+li{
+   list-style:none;
+}
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+<div id="container">
+<h1>상세보기</h1>
+<form action="/news/newsBoardUpdate" method="post" onsubmit="return updateEX()" th:object="${updateBoardCommand}">
+   <input type="hidden" name="board_seq" th:value="${dto.board_seq}" />
+   <table class="table">
+      <tr>
+         <th>작성자[ID]</th>
+         <td th:text="${dto.id}"></td>
+      </tr>
+      <tr>
+         <th>제목</th>
+         <td>
+            <input type="text" name="title" th:value="${dto.title}" class="form-control" />
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+         </td>
+      </tr>
+      <tr>
+         <th>사진</th>
+         <th:block th:if="${dto.fileBoardDto[0].origin_filename==null}">
+            <td>첨부파일없음</td>
+         </th:block>
+
+         <th:block th:unless="${dto.fileBoardDto[0].origin_filename==null}">
+            <td>
+               <th:block th:each="fdto:${dto.fileBoardDto}">
+                    <img th:src="@{/upload/{image}(image=${dto.fileBoardDto[0].stored_filename})}"/>
+                  <a th:text="${fdto.origin_filename}"
+                   th:href="@{/news/download(file_seq=${fdto.file_seq})}"></a>&nbsp;&nbsp;
+               </th:block>
+            </td>
+         </th:block>
+      </tr>
+      <tr>
+         <th>내용</th>
+         <td>
+         	<th:block th:if="${session.mdto.id=='admin'}">
+				<textarea rows="10" cols="60" name="content" th:text="${dto.content}" class="form-control">	</textarea>
+		        <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+			</th:block>
+			<th:block th:unless="${session.mdto.id=='admin'}">
+				<textarea rows="10" cols="60" name="content" th:text="${dto.content}" class="form-control" readonly="readonly">	</textarea>
+			    <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+			</th:block>
+            
+         </td>
+      </tr>
+      <tr>
+         <td colspan="2">
+            <th:block th:if="${dto.id==session.mdto.id}">
+               <button type="submit" class="btn">수정</button>
+            </th:block>
+            <th:block th:unless="${dto.id==session.mdto.id}">
+               <button type="submit" class="btn" style="display: none;">수정</button>
+            </th:block>
+               <button type="button" class="btn" th:onclick="|location.href='@{/news/boardList}'|">목록</button>
+            <th:block th:if="${dto.id==session.mdto.id}">
+               <button type="button" title="삭제" class="btn"  th:onclick="|location.href='@{/news/mulDel(seq=${dto.board_seq})}'|"><span class="glyphicon glyphicon-trash" ></span></button>
+            </th:block>
+            <th:block th:unless="${dto.id==session.mdto.id}">
+               <button type="button" title="삭제" class="btn"  th:onclick="|location.href='@{/news/mulDel(seq=${dto.board_seq})}'|"  style="display: none;"><span class="glyphicon glyphicon-trash" ></span></button>
+            </th:block>   
+               
+               
+         </td>
+      </tr>
+   </table>
+   <div class="card mb-2">
+            <div class="card-header bg-light">
+                    <i class="fa fa-comment fa"></i> REPLY
+            </div>
+            <div class="card-body">
+               <ul class="list-group list-group-flush">
+                   <li class="list-group-item">
+                  <div class="form-inline mb-2">
+                     <label for="replyId"><i class="fa fa-user-circle-o fa-2x"></i></label>
+                     <input type="text" class="form-control ml-2" id="replyId" th:value="${session.mdto.id}" readonly>
+                  </div>
+                  <input type="text" class="form-control" id="exampleFormControlTextarea1" name="text">
+                  <button id="add" type="button" class="btn btn-dark mt-3" onclick="addReply()">댓글 달기</button>
+                  <button type="button" class="btn btn-dark mt-3" onclick="showReply()">댓글 보기</button>
+                  <ul id='reply'></ul>
+                   </li>
+               </ul>
+            </div>
+         </div>
+</form>
+</div>
+</div>
+</body>
+</html>

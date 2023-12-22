@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+
+</script>
+<style type="text/css">
+.lead{
+   text-align: right;
+   padding: 10px;
+}
+
+/* body{ */
+/*    background-image: url("/css/og.jpg"); */
+/*    background-size: cover; */
+/* } */
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+<div class="lead">
+      <span th:text="${session.mdto.id}"></span>[<span th:text="${session.mdto.role}"></span>]님께서 로그인하셨습니다.
+</div>
+<h1>메인 페이지</h1>
+<div style="text-align: center;">
+   <img class="soori" th:src="@{/css/soori.gif}"  />
+   <p style="font-size: 50px;">상단의 메뉴바를 선택해서 서비스를 이용해주세요</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mapper.NewsBoardMapper">
+   
+   <resultMap type="NewsBoardDto" id="NewsBoardDtoMap">
+      <id property="board_seq"   column="BOARD_SEQ" />
+      <result property="id"      column="ID" />
+      <result property="title"   column="TITLE" />
+      <result property="content" column="CONTENT" />
+      <result property="regdate" column="REGDATE" />
+      <result property="delflag" column="DELFLAG" />
+      <collection property="fileBoardDto" resultMap="fileBoardDtoMap" ></collection>
+   </resultMap>
+   
+   <resultMap type="fileBoardDto" id="fileBoardDtoMap">
+      <id property="file_seq"            column="FILE_SEQ" />
+      <result property="board_seq"       column="BOARD_SEQ" />
+      <result property="origin_filename" column="ORIGIN_FILENAME" />
+      <result property="stored_filename" column="STORED_FILENAME" />
+   </resultMap>
+   
+   
+   <select id="getAllList" parameterType="map" resultType="NewsBoardDto">
+      SELECT rn,BOARD_SEQ, ID, TITLE, CONTENT, REGDATE, refer, readcount, delflag
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY refer DESC) rn,
+						 board_seq, id, title, content,regdate,refer,
+						 readcount,delflag
+					FROM hhboard where DELFLAG = 'N') a
+      <where>
+			<choose>
+				<when test="board_seq!=null">
+					AND board_seq=#{board_seq}
+				</when>
+				<otherwise>
+					AND CEIL(rn/10)=#{pnum}  
+				</otherwise>
+			</choose>
+	</where> 
+      ORDER BY board_seq DESC
+   </select>
+   
+   <select id="getBoard" parameterType="Integer" resultMap="NewsBoardDtoMap">
+      SELECT B.BOARD_SEQ, B.ID, B.TITLE, B.CONTENT, B.REGDATE
+         ,F.FILE_SEQ, F.ORIGIN_FILENAME, F.STORED_FILENAME
+      FROM HHBOARD B LEFT OUTER JOIN HHFILEINFO F
+      ON B.BOARD_SEQ = F.BOARD_SEQ
+      WHERE B.BOARD_SEQ = #{board_seq}
+   </select>
+   
+
+   <insert id="insertBoard" parameterType="NewsBoardDto"
+      useGeneratedKeys="true" keyProperty="board_seq">
+      INSERT INTO HHBOARD
+      VALUES(NULL,#{id},#{title},#{content},SYSDATE(),
+      (SELECT NVL(MAX(refer),0)+1 
+      FROM HHBOARD alias_for_subquery),
+       0,0,0,'N')
+   </insert>
+   
+   <update id="updateBoard" parameterType="NewsBoardDto">
+      UPDATE HHBOARD
+      SET TITLE=#{title}, CONTENT=#{content}
+      WHERE BOARD_SEQ=#{board_seq}
+   </update>
+   
+   <update id="mulDel" parameterType="Map">
+      UPDATE HHBOARD SET DELFLAG = 'Y' WHERE BOARD_SEQ IN
+      <foreach collection="seqs" item="board_seq" open="(" close=")"
+               separator=",">
+         #{board_seq}
+      </foreach>
+   </update>
+   
+   <update id="readCount" parameterType="int">
+      UPDATE HHBOARD
+      SET readcount=readcount+1
+      WHERE board_seq=#{board_seq}
+   </update>
+   
+   	<select id="getPCount" resultType="int">
+		SELECT CEIL(COUNT(*)/10) pageCount 
+		FROM HHBOARD
+		WHERE DELFLAG = "N"
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

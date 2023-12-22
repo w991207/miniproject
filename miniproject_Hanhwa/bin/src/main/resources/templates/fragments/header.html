@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<style type="text/css">
+   #container{
+      width: 1000px;
+      margin: 0 auto;
+      
+   }
+   
+/*    .navbar > #navbar > ul > li a{ */
+/*          color: rgb(255,128,0) !important; */
+/*    } */
+</style>
+</head>
+<body>
+<header th:fragment="header" class="header">
+   <nav class="navbar bg-dark border-bottom border-body " data-bs-theme="dark">
+   <div class="container">
+   <div class="navbar-header">
+     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+       <span class="sr-only">Toggle navigation</span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+     </button>
+     <a class="navbar-brand" href="/" style="color: black; font-weight: bold">MAIN</a>
+   </div>
+   <div id="navbar navbar-light" class="collapse navbar-collapse">
+     <ul class="nav navbar-nav">
+       <li><a href="#" style="color: black; font-weight: bold" >Home</a></li>
+       <li><a href="#about" style="color: black; font-weight: bold">About</a></li>
+       <li><a href="#" style="color: black; font-weight: bold">나의정보</a></li>
+     </ul>
+   </div>
+   </div>
+</nav>
+  </header>
+  <div style="height: 50px;"></div>
+</body>
+</html>

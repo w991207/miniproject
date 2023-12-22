@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/admin_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function allUserList(){
+    location.href="/user/allUserList";
+ }
+</script>
+<style type="text/css">
+.photo{
+   margin-top: 50px;
+}
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+<h1>관리자페이지</h1>
+<div style="text-align: center;">
+   <img class="photo" th:src="@{/css/관리자 메인.jpg}"  />
+</div>
+</div>
+</body>
+</html>

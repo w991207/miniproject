@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mapper.FreeBoardReplyMapper">
+   
+   <insert id="insertReplyBoard" parameterType="FreeBoardDto">
+      INSERT INTO hhfreereplyboard
+        VALUES (NULL, #{board_seq}, #{id}, #{content})
+   </insert>
+   
+   <select id="showReplyBoard" parameterType="Integer" resultType="FreeBoardDto">
+         SELECT SEQ, ID, CONTENT
+         FROM hhfreereplyboard
+         WHERE SEQ = #{board_seq}
+   </select>
+   
+</mapper>
